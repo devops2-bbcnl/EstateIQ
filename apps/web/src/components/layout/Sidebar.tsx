@@ -5,11 +5,13 @@ import { cn } from '@/lib/utils'
 import {
   LayoutDashboard, Users, Megaphone, CreditCard,
   ShieldCheck, Wrench, CalendarCheck, BarChart2,
-  AlertTriangle, LogOut, Building2, ChevronLeft, ChevronRight,
+  AlertTriangle, LogOut, Car, ChevronLeft, ChevronRight, ScanLine,
 } from 'lucide-react'
 import { signOut } from 'next-auth/react'
+import Image from 'next/image'
 import { useState } from 'react'
 import { useResident } from '@/context/ResidentContext'
+import logo from '@/components/images/logo.png'
 
 const adminOnlyRoutes = ['/residents']
 
@@ -23,6 +25,8 @@ const navItems = [
   { label: 'Facilities',    href: '/facilities',   icon: CalendarCheck,   adminOnly: false },
   { label: 'Polls',         href: '/polls',        icon: BarChart2,       adminOnly: false },
   { label: 'Incidents',     href: '/incidents',    icon: AlertTriangle,   adminOnly: false },
+  { label: 'Vehicles',      href: '/vehicles',     icon: Car,             adminOnly: false },
+  { label: 'Gate scanner',  href: '/vehicles/scan', icon: ScanLine, adminOnly: false },
 ]
 
 export default function Sidebar() {
@@ -42,19 +46,16 @@ export default function Sidebar() {
         'flex items-center gap-3 px-4 py-5 border-b border-gray-800',
         collapsed && 'justify-center px-2'
       )}>
-        <div className="bg-green-600 rounded p-1.5 shrink-0">
-        <svg width="18" height="18" viewBox="0 0 56 56" fill="none">
-  <path d="M28 4L50 17V39L28 52L6 39V17L28 4Z"
-    fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
-  <path d="M28 4L28 52" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
-  <path d="M6 17L50 17"  fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
-  <path d="M6 39L50 39"  fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
-  <circle cx="28" cy="28" r="7" fill="#fff"/>
-</svg>
-        </div>
-        {!collapsed && (
-          <span className="font-semibold text-base tracking-tight">EstateIQ</span>
-        )}
+        <Image
+          src={logo}
+          alt="EstateIQ"
+          height={20}
+          width={70}
+          className={cn(
+            'object-contain shrink-0',
+            collapsed && 'h-2.5 w-[1.75rem] object-center'
+          )}
+        />
       </div>
 
       {/* Nav */}

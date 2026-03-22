@@ -12,6 +12,7 @@ const publicRoutes = [
   '/api/mobile/auth',
   '/accept-invite',
   '/api/residents/accept-invite',
+  '/api/scan',
 ]
 
 export default async function middleware(req: NextRequest) {
