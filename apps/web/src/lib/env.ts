@@ -31,6 +31,6 @@ const required = [
         throw new Error('AUTH_SECRET must be at least 32 characters in production.')
       }
     }
-  
+
     console.log('[Env] All required environment variables present')
   }

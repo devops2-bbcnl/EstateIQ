@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { getEstatePublicBySlug } from '@/lib/estatePublic'
 import EstateLandingClient from './EstateLandingClient'
 
 interface Props {
@@ -8,15 +9,9 @@ interface Props {
 export default async function EstateLandingPage({ params }: Props) {
   const { estateSlug } = await params
 
-  // Fetch estate data server-side
-  const res = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/estate/${estateSlug}`,
-    { cache: 'no-store' }
-  )
+  const estate = await getEstatePublicBySlug(estateSlug)
 
-  if (!res.ok) notFound()
-
-  const estate = await res.json()
+  if (!estate) notFound()
 
   return <EstateLandingClient estate={estate} />
 }

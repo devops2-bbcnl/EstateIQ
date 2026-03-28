@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@estateiq/database'
 import { logger } from '@/lib/logger'
+import { getEstatePublicBySlug } from '@/lib/estatePublic'
 
 export async function GET(
   _: Request,
@@ -9,22 +9,7 @@ export async function GET(
   try {
     const { slug } = await params
 
-    const estate = await prisma.estate.findUnique({
-      where: { slug },
-      select: {
-        id:      true,
-        name:    true,
-        slug:    true,
-        address: true,
-        plan:    true,
-        _count: {
-          select: {
-            residents: { where: { isActive: true } },
-            units:     true,
-          },
-        },
-      },
-    })
+    const estate = await getEstatePublicBySlug(slug)
 
     if (!estate) {
       return NextResponse.json({ error: 'Estate not found' }, { status: 404 })
