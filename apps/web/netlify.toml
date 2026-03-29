@@ -13,3 +13,5 @@
   TURBO_TELEMETRY_DISABLED = "1"
   # next-auth/react inlines NEXTAUTH_URL in client chunks (public site URL). TERMII_SENDER_ID often matches visible SMS sender text.
   SECRETS_SCAN_OMIT_KEYS = "NEXTAUTH_URL,TERMII_SENDER_ID"
+  # Set in Netlify UI (Site → Environment variables), not in this file: DATABASE_URL, AUTH_SECRET,
+  # NEXTAUTH_URL (https://estateiq.homes), and any SMTP/OAuth keys your routes use.

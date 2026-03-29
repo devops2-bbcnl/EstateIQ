@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@estateiq/database'
+import { prisma, Prisma } from '@estateiq/database'
 import bcrypt from 'bcryptjs'
 import { logger } from '@/lib/logger'
 import { rateLimit } from '@/lib/rateLimit'
@@ -46,8 +46,14 @@ export async function POST(req: Request) {
     })
 
     return NextResponse.json({ id: user.id, email: user.email, plan: plan ?? 'STARTER' }, { status: 201 })
-  } catch (err: any) {
-    logger.error('[POST /api/auth/register]', { message: err.message, stack: err.stack })
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
+    const stack = err instanceof Error ? err.stack : undefined
+    const prismaMeta =
+      err instanceof Prisma.PrismaClientKnownRequestError
+        ? { prismaCode: err.code, prismaMeta: err.meta }
+        : {}
+    logger.error('[POST /api/auth/register]', { message, stack, ...prismaMeta })
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
