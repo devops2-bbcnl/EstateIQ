@@ -1,11 +1,34 @@
+import { readFileSync } from 'node:fs'
+
+const GLOBAL_KEY = '__ESTATEIQ_DATABASE_URL__' as const
+
+function readDatabaseUrlFromLinuxProc(): string | undefined {
+  if (typeof process === 'undefined' || process.platform === 'win32') return undefined
+  try {
+    const raw = readFileSync('/proc/self/environ', 'utf8')
+    for (const entry of raw.split('\0')) {
+      if (entry.startsWith('DATABASE_URL=')) {
+        const v = entry.slice('DATABASE_URL='.length)
+        if (v.trim().length > 0) return v.trim()
+      }
+    }
+  } catch {
+    // Not Linux or unreadable
+  }
+  return undefined
+}
+
 /**
  * Runs once per server cold start. Copies DATABASE_URL to globalThis so the DB package
  * can read it even when Next.js/webpack inlines `process.env.DATABASE_URL` as undefined.
+ * Falls back to /proc/self/environ on Linux (real OS env on Netlify).
  */
 export function register() {
-  const url = process.env.DATABASE_URL
+  let url = process.env.DATABASE_URL
+  if (typeof url !== 'string' || url.trim().length === 0) {
+    url = readDatabaseUrlFromLinuxProc()
+  }
   if (typeof url === 'string' && url.trim().length > 0) {
-    ;(globalThis as unknown as { __ESTATEIQ_DATABASE_URL__?: string }).__ESTATEIQ_DATABASE_URL__ =
-      url.trim()
+    ;(globalThis as unknown as Record<string, string | undefined>)[GLOBAL_KEY] = url.trim()
   }
 }

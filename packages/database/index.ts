@@ -74,15 +74,25 @@ function prismaClientOptions(): ConstructorParameters<typeof PrismaClient>[0] {
         ? ['query', 'error', 'warn']
         : ['error'],
   }
-  // Never pass `url: undefined` — it overrides schema env("DATABASE_URL") and breaks the client.
-  if (resolved) {
-    base.datasources = { db: { url: resolved } }
+  if (!resolved) {
+    throw new Error(
+      'DATABASE_URL is not set. Add it in Netlify → Environment variables (scope: All or Functions), then redeploy.'
+    )
   }
+  base.datasources = { db: { url: resolved } }
   return base
 }
 
-const prismaClient =
-  globalForPrisma.prisma ?? new PrismaClient(prismaClientOptions())
+/**
+ * Create the client on first use (not at module load) so instrumentation + /proc have
+ * already populated globalThis before we read the URL.
+ */
+function getPrismaClient(): PrismaClient {
+  if (!globalForPrisma.prisma) {
+    globalForPrisma.prisma = new PrismaClient(prismaClientOptions())
+  }
+  return globalForPrisma.prisma
+}
 
 /** For health checks / diagnostics — whether a non-empty DATABASE_URL is visible at runtime. */
 export function isDatabaseUrlConfigured(): boolean {
@@ -96,9 +106,15 @@ export function isDatabaseUrlLocalhost(): boolean {
   return /localhost|127\.0\.0\.1/i.test(u)
 }
 
-// One client per serverless instance (warm container); same pattern as dev HMR.
-globalForPrisma.prisma = prismaClient
-
-export const prisma = prismaClient
+export const prisma = new Proxy({} as PrismaClient, {
+  get(_target, prop, receiver) {
+    const client = getPrismaClient()
+    const value = Reflect.get(client, prop, receiver) as unknown
+    if (typeof value === 'function') {
+      return (value as (...args: unknown[]) => unknown).bind(client)
+    }
+    return value
+  },
+})
 
 export * from './src/generated/prisma'

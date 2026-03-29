@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { prisma, Prisma } from '@estateiq/database'
+import { prisma, Prisma, isDatabaseUrlConfigured } from '@estateiq/database'
 import bcrypt from 'bcryptjs'
 import { logger } from '@/lib/logger'
 import { rateLimit } from '@/lib/rateLimit'
@@ -77,12 +77,31 @@ export async function POST(req: Request) {
       ...(initErr && { prismaInitCode: initErr.errorCode }),
     })
 
-    if (initErr || /Can't reach database|localhost:5432|P1001/i.test(message)) {
+    const dbUnreachable =
+      Boolean(initErr) ||
+      (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P1001') ||
+      /Can't reach database server/i.test(message)
+
+    if (dbUnreachable) {
+      const urlReadable = isDatabaseUrlConfigured()
+      const prismaStillUsingLocalhost = /localhost:5432|127\.0\.0\.1:5432/.test(message)
+
+      if (!urlReadable || prismaStillUsingLocalhost) {
+        return NextResponse.json(
+          {
+            error:
+              'Database URL is missing or not visible to the server. In Netlify: Environment variables → DATABASE_URL = your Railway Postgres URL, scope Builds + Functions, redeploy.',
+            code: 'DATABASE_URL_MISSING',
+          },
+          { status: 503 }
+        )
+      }
+
       return NextResponse.json(
         {
           error:
-            'Database is unavailable. Check DATABASE_URL in Netlify (hosted Postgres URL, not localhost) and redeploy.',
-          code: 'DATABASE_UNAVAILABLE',
+            'Could not reach your Postgres host. DATABASE_URL is set; check Railway service is running, the connection string and password are correct, and the database allows connections from the internet (SSL).',
+          code: 'DATABASE_CONNECTION_FAILED',
         },
         { status: 503 }
       )
