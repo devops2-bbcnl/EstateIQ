@@ -14,6 +14,8 @@ const required = [
     'SMTP_PORT',
     'SMTP_SECURE',
     'PAYSTACK_WEBHOOK_SECRET',
+    'NEXT_PUBLIC_TURNSTILE_SITE_KEY',
+    'TURNSTILE_SECRET_KEY',
   ]
   
   export function validateEnv() {

@@ -1,22 +1,32 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Loader2, Eye, EyeOff, Check } from 'lucide-react'
 import logo from '@/components/images/logo2.png'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { passwordMeetsPolicy, passwordRules } from '@/lib/passwordPolicy'
+import type { TurnstileInstance } from '@marsidev/react-turnstile'
+import {
+  TurnstileWidget,
+  isTurnstileWidgetEnabled,
+} from '@/components/auth/TurnstileWidget'
 
 export default function SignUpForm() {
+  const router = useRouter()
   const [form, setForm] = useState({ name: '', email: '', password: '' })
   const [consent, setConsent] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const turnstileRef = useRef<TurnstileInstance>(null)
   const searchParams = useSearchParams()
   const plan = searchParams.get('plan') ?? 'STARTER'
+
+  const needTurnstile = isTurnstileWidgetEnabled()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -26,6 +36,10 @@ export default function SignUpForm() {
     }
     if (!passwordMeetsPolicy(form.password)) {
       setError('Please create a stronger password that meets all requirements below.')
+      return
+    }
+    if (needTurnstile && !turnstileToken) {
+      setError('Please complete the security check below.')
       return
     }
     setLoading(true)
@@ -41,14 +55,29 @@ export default function SignUpForm() {
     if (!res.ok) {
       setError(data.error || 'Something went wrong')
       setLoading(false)
+      turnstileRef.current?.reset()
+      setTurnstileToken(null)
       return
     }
 
-    await signIn('credentials', {
+    const signInRes = await signIn('credentials', {
       email: form.email,
       password: form.password,
       callbackUrl: '/onboarding',
+      redirect: false,
+      ...(needTurnstile && turnstileToken ? { turnstileToken } : {}),
     })
+
+    setLoading(false)
+
+    if (signInRes?.error) {
+      setError('Account created but sign-in failed. Please sign in manually.')
+      turnstileRef.current?.reset()
+      setTurnstileToken(null)
+      return
+    }
+
+    router.push('/onboarding')
   }
 
   return (
@@ -158,9 +187,21 @@ export default function SignUpForm() {
             </label>
           </div>
 
+          {needTurnstile && (
+            <TurnstileWidget
+              ref={turnstileRef}
+              onToken={setTurnstileToken}
+            />
+          )}
+
           <button
             type="submit"
-            disabled={loading || !consent || !passwordMeetsPolicy(form.password)}
+            disabled={
+              loading ||
+              !consent ||
+              !passwordMeetsPolicy(form.password) ||
+              (needTurnstile && !turnstileToken)
+            }
             className="w-full bg-green-600 text-white rounded py-2.5 text-sm font-medium hover:bg-green-700 disabled:opacity-50 transition flex items-center justify-center gap-2 mt-2"
           >
             {loading ? (

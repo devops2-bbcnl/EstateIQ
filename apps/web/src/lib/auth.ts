@@ -2,6 +2,7 @@ import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
 import authConfig from './auth.config'
+import { isTurnstileEnforced, verifyTurnstileToken } from './turnstile'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -12,9 +13,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       credentials: {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
+        turnstileToken: { label: 'Turnstile', type: 'text' },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
+
+        if (isTurnstileEnforced()) {
+          const token = credentials.turnstileToken as string | undefined
+          if (!token?.trim()) return null
+          const ok = await verifyTurnstileToken(token)
+          if (!ok) return null
+        }
 
         const { prisma } = await import('@estateiq/database')
         const user = await prisma.authUser.findUnique({

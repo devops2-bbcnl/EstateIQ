@@ -1,11 +1,16 @@
 'use client'
 import { signIn } from 'next-auth/react'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import logo from '@/components/images/logo.png'
 import Link from 'next/link'
 import { Loader2, Eye, EyeOff } from 'lucide-react'
+import type { TurnstileInstance } from '@marsidev/react-turnstile'
+import {
+  TurnstileWidget,
+  isTurnstileWidgetEnabled,
+} from '@/components/auth/TurnstileWidget'
 
 export default function SignInPage() {
   const router = useRouter()
@@ -13,20 +18,35 @@ export default function SignInPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [showPw, setShowPw]       = useState(false)
+  const [showPw, setShowPw] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const turnstileRef = useRef<TurnstileInstance>(null)
+
+  const needTurnstile = isTurnstileWidgetEnabled()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
     setError('')
 
+    if (needTurnstile && !turnstileToken) {
+      setError('Please complete the security check below.')
+      setLoading(false)
+      return
+    }
+
     const res = await signIn('credentials', {
-      email, password, redirect: false,
+      email,
+      password,
+      redirect: false,
+      ...(needTurnstile && turnstileToken ? { turnstileToken } : {}),
     })
 
     if (res?.error) {
       setError('Invalid email or password')
       setLoading(false)
+      turnstileRef.current?.reset()
+      setTurnstileToken(null)
     } else {
       router.push('/dashboard')
     }
@@ -103,9 +123,21 @@ export default function SignInPage() {
   </div>
 </div>
 
+{needTurnstile && (
+  <TurnstileWidget
+    ref={turnstileRef}
+    onToken={setTurnstileToken}
+  />
+)}
+
 <button
   type="submit"
-  disabled={loading || !email || !password}
+  disabled={
+    loading ||
+    !email ||
+    !password ||
+    (needTurnstile && !turnstileToken)
+  }
   className="w-full bg-green-600 text-white rounded py-2.5 text-sm font-medium hover:bg-green-700 disabled:opacity-50 transition-colors flex items-center justify-center gap-2 mt-2"
 >
   {loading

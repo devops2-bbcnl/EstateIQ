@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer'
+import { getPublicAppOrigin } from '@/lib/appUrl'
 
 const transporter = nodemailer.createTransport({
   host:   process.env.SMTP_HOST!,
@@ -37,7 +38,7 @@ export async function sendInviteEmail({
   console.log('[Email] Sending invite to:', to)
   console.log('[Email] Invite URL:', inviteUrl)
 
-  const baseUrl = (process.env.NEXTAUTH_URL || '').replace(/\/$/, '')
+  const baseUrl = getPublicAppOrigin()
   const logoUrl = `${baseUrl}/logo.png`
 
   const info = await transporter.sendMail({

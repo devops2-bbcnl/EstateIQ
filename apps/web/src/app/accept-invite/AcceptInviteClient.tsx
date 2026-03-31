@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense, useEffect, useState, useRef } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { CheckCircle2, Loader2, Eye, EyeOff } from 'lucide-react'
@@ -8,6 +8,11 @@ import { signIn } from 'next-auth/react'
 import { fetchJson } from '@/lib/fetchJson'
 import Link from 'next/link'
 import logo from '@/components/images/logo.png'
+import type { TurnstileInstance } from '@marsidev/react-turnstile'
+import {
+  TurnstileWidget,
+  isTurnstileWidgetEnabled,
+} from '@/components/auth/TurnstileWidget'
 
 interface TokenInfo {
   valid: boolean
@@ -35,6 +40,10 @@ function AcceptInviteForm() {
   const [error, setError] = useState('')
   const [done, setDone] = useState(false)
   const [needsSignIn, setNeedsSignIn] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const turnstileRef = useRef<TurnstileInstance>(null)
+
+  const needTurnstile = isTurnstileWidgetEnabled()
 
   useEffect(() => {
     if (!token) {
@@ -78,6 +87,10 @@ function AcceptInviteForm() {
       setError('Missing invitation details.')
       return
     }
+    if (needTurnstile && !turnstileToken) {
+      setError('Please complete the security check below.')
+      return
+    }
 
     setLoading(true)
     setError('')
@@ -91,6 +104,8 @@ function AcceptInviteForm() {
     if (postErr) {
       setLoading(false)
       setError(postErr)
+      turnstileRef.current?.reset()
+      setTurnstileToken(null)
       return
     }
 
@@ -98,12 +113,15 @@ function AcceptInviteForm() {
       email: info.email,
       password,
       redirect: false,
+      ...(needTurnstile && turnstileToken ? { turnstileToken } : {}),
     })
 
     setLoading(false)
 
     if (signInRes?.error) {
       setNeedsSignIn(true)
+      turnstileRef.current?.reset()
+      setTurnstileToken(null)
       return
     }
 
@@ -295,6 +313,13 @@ function AcceptInviteForm() {
                   </label>
                 </div>
 
+                {needTurnstile && (
+                  <TurnstileWidget
+                    ref={turnstileRef}
+                    onToken={setTurnstileToken}
+                  />
+                )}
+
                 <button
                   type="submit"
                   disabled={
@@ -302,7 +327,8 @@ function AcceptInviteForm() {
                     !password ||
                     !confirm ||
                     password !== confirm ||
-                    !consent
+                    !consent ||
+                    (needTurnstile && !turnstileToken)
                   }
                   className="w-full bg-green-600 text-white rounded py-2.5 text-sm font-medium hover:bg-green-700 disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
                 >

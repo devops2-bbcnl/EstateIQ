@@ -4,6 +4,7 @@ import { prisma } from '@estateiq/database'
 import { sendInviteEmail } from '@/lib/email'
 import crypto from 'crypto'
 import { logger } from '@/lib/logger'
+import { getPublicAppOrigin } from '@/lib/appUrl'
 
 export async function POST(req: Request) {
   try {
@@ -63,7 +64,7 @@ export async function POST(req: Request) {
       },
     })
 
-    const inviteUrl = `${process.env.NEXTAUTH_URL}/accept-invite?token=${token}`
+    const inviteUrl = `${getPublicAppOrigin()}/accept-invite?token=${token}`
 
     // Fire and forget — don't await, don't block the response
     sendInviteEmail({
