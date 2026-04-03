@@ -19,8 +19,6 @@ const transporter = nodemailer.createTransport({
 transporter.verify((error) => {
   if (error) {
     console.error('[Email] SMTP connection failed:', error.message)
-  } else {
-    console.log('[Email] SMTP server is ready')
   }
 })
 
@@ -49,13 +47,10 @@ export async function sendInviteEmail({
   estateName:  string
   inviteUrl:   string
 }) {
-  console.log('[Email] Sending invite to:', to)
-  console.log('[Email] Invite URL:', inviteUrl)
-
   const baseUrl = getPublicAppOrigin()
   const logoUrl = `${baseUrl}/logo.png`
 
-  const info = await transporter.sendMail({
+  await transporter.sendMail({
     from:     process.env.SMTP_FROM,
     to,
     subject:  `You have been invited to join ${estateName} on Kynjo.Homes`,
@@ -150,8 +145,6 @@ If you did not expect this invitation, you can ignore this email.
       'Importance':        'Normal',
     },
   })
-
-  console.log('[Email] Sent successfully. Message ID:', info.messageId)
 }
 
 export async function sendOnboardingWelcomeEmail({
@@ -168,7 +161,7 @@ export async function sendOnboardingWelcomeEmail({
   const baseUrl = getPublicAppOrigin()
   const logoUrl = `${baseUrl}/logo.png`
 
-  const info = await transporter.sendMail({
+  await transporter.sendMail({
     from: process.env.SMTP_FROM,
     to,
     subject: `Welcome — ${estateName} is live on Kynjo.Homes`,
@@ -246,8 +239,6 @@ Open the link above to view your estate’s public page. Sign in to manage resid
       Importance: 'Normal',
     },
   })
-
-  console.log('[Email] Onboarding welcome sent. Message ID:', info.messageId)
 }
 
 export async function sendPasswordResetEmail({

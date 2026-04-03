@@ -54,8 +54,6 @@ export async function POST(req: Request) {
             subscriptionExpiresAt: expiresAt,
           },
         })
-
-        console.log(`[Webhook] Subscription activated for estate ${estateId}, expires ${expiresAt.toISOString()}`)
       }
     }
     }

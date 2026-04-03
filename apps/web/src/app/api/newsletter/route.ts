@@ -63,9 +63,7 @@ export async function POST(req: Request) {
       await sendNewsletterSignupEmail(email)
     } catch (e) {
       const code = (e as Error & { code?: string }).code
-      if (code === 'MAILER_UNCONFIGURED') {
-        console.warn('[api/newsletter] mailer not configured; subscriber saved without notification email')
-      } else {
+      if (code !== 'MAILER_UNCONFIGURED') {
         console.error('[api/newsletter] email', e)
       }
       // Subscriber is already persisted

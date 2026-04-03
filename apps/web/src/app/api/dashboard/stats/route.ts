@@ -13,13 +13,6 @@ export async function GET() {
       where: { userId: session.user.id },
     })
 
-    console.log('=== DASHBOARD STATS DEBUG ===')
-    console.log('Session user ID:', session.user.id)
-    console.log('Resident found:', resident ? 'yes' : 'no')
-    console.log('Resident role:', resident?.role)
-    console.log('Estate ID:', resident?.estateId)
-    console.log('=============================')
-
     if (!resident) {
       return NextResponse.json({ error: 'Resident not found' }, { status: 404 })
     }
@@ -100,14 +93,6 @@ export async function GET() {
         select:  { id: true, name: true, createdAt: true, status: true },
       }),
     ])
-
-    console.log('=== QUERY RESULTS ===')
-    console.log('Total residents:', totalResidents)
-    console.log('Total units:', totalUnits)
-    console.log('Levies count:', levies.length)
-    console.log('Payments count:', payments.length)
-    console.log('Visitors today:', visitorsToday)
-    console.log('====================')
 
     const totalLevies      = levies.length
     const paidPayments     = payments.filter(p => p.status === 'PAID')
