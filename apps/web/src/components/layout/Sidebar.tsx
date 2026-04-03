@@ -197,7 +197,13 @@ export default function Sidebar() {
         <button
           onClick={() => {
             closeMobileNav()
-            void signOut({ callbackUrl: '/sign-in' })
+            void signOut({ redirect: false })
+              .then(() => {
+                window.location.assign('/sign-in')
+              })
+              .catch(() => {
+                window.location.assign('/sign-in')
+              })
           }}
           className={cn(
             'flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm text-gray-400 hover:bg-gray-800 hover:text-white transition-colors',
