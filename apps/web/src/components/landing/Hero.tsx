@@ -65,7 +65,7 @@ const Hero = ({ isLoggedIn = false }: HeroProps) => {
               className="border-mist/30 text-black hover:bg-mist/10 active:scale-[0.97] transition-all"
               asChild
             >
-              <Link href={isLoggedIn ? "#features" : "/sign-up"}>
+              <Link href={isLoggedIn ? "#features" : "/contact"}>
                 {isLoggedIn ? "Explore features" : "Book a Demo"}
               </Link>
             </Button>

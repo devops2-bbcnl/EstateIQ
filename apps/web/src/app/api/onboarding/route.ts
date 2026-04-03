@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@estateiq/database'
 import { logger } from '@/lib/logger'
+import { getPublicAppOrigin } from '@/lib/appUrl'
+import { sendOnboardingWelcomeEmail } from '@/lib/email'
 
 export async function POST(req: Request) {
   const session = await auth()
@@ -56,6 +58,19 @@ export async function POST(req: Request) {
       })
 
       return { estate, unit, resident }
+    })
+
+    const estateUrl = `${getPublicAppOrigin()}/${result.estate.slug}`
+    sendOnboardingWelcomeEmail({
+      to: email,
+      firstName: result.resident.firstName,
+      estateName: result.estate.name,
+      estateUrl,
+    }).catch(err => {
+      logger.error('[POST /api/onboarding] Welcome email failed', {
+        message: err instanceof Error ? err.message : String(err),
+        stack: err instanceof Error ? err.stack : undefined,
+      })
     })
 
     return NextResponse.json(result, { status: 201 })

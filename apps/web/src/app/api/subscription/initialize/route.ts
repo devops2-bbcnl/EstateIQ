@@ -3,6 +3,20 @@ import { auth } from '@/lib/auth'
 import { prisma } from '@estateiq/database'
 import { PLAN_PRICE_KOBO } from '@/lib/plans'
 
+/** Paystack rejects initialize when email is missing/invalid (JSON omits `undefined`). */
+function pickCustomerEmail(
+  ...candidates: (string | null | undefined)[]
+): string | null {
+  for (const raw of candidates) {
+    if (typeof raw !== 'string') continue
+    const trimmed = raw.trim()
+    if (!trimmed || !trimmed.includes('@')) continue
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) continue
+    return trimmed
+  }
+  return null
+}
+
 export async function POST() {
   try {
     const session = await auth()
@@ -23,6 +37,18 @@ export async function POST() {
       where: { id: session.user.id },
     })
 
+    const customerEmail = pickCustomerEmail(
+      authUser?.email,
+      session.user.email,
+      resident.email
+    )
+    if (!customerEmail) {
+      return NextResponse.json(
+        { error: 'No valid email on your account. Update your profile or contact support.' },
+        { status: 400 }
+      )
+    }
+
     const response = await fetch('https://api.paystack.co/transaction/initialize', {
       method:  'POST',
       headers: {
@@ -30,7 +56,7 @@ export async function POST() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email:    authUser?.email,
+        email:    customerEmail,
         amount:   PLAN_PRICE_KOBO,
         currency: 'NGN',
         metadata: {
@@ -62,7 +88,13 @@ export async function POST() {
       },
     })
 
-    return NextResponse.json({ url: data.data.authorization_url })
+    return NextResponse.json({
+      url:            data.data.authorization_url,
+      accessCode:     data.data.access_code as string,
+      /** Required by Paystack Inline `setup()` alongside `access_code` (popup validates these). */
+      customerEmail,
+      amountKobo:     PLAN_PRICE_KOBO,
+    })
   } catch (err: any) {
     console.error('[POST /api/subscription/initialize]', err.message)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

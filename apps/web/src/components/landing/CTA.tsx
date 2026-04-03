@@ -48,7 +48,7 @@ const CTA = ({ isLoggedIn = false }: CTAProps) => {
             className="border-background/20 text-black hover:bg-background/10 active:scale-[0.97] transition-all"
             asChild
           >
-            <Link href={isLoggedIn ? "#pricing" : "/sign-up"}>
+            <Link href={isLoggedIn ? "#pricing" : "/contact"}>
               {isLoggedIn ? "View pricing" : "Talk to Sales"}
             </Link>
           </Button>

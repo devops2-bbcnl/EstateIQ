@@ -5,7 +5,7 @@ import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Loader2, Eye, EyeOff, Check } from 'lucide-react'
-import logo from '@/components/images/logo2.png'
+import logo from '@/components/images/logo.png'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { passwordMeetsPolicy, passwordRules } from '@/lib/passwordPolicy'
 import type { TurnstileInstance } from '@marsidev/react-turnstile'
@@ -60,10 +60,12 @@ export default function SignUpForm() {
       return
     }
 
+    const onboardingUrl = `/onboarding?plan=${encodeURIComponent(plan)}`
+
     const signInRes = await signIn('credentials', {
       email: form.email,
       password: form.password,
-      callbackUrl: '/onboarding',
+      callbackUrl: onboardingUrl,
       redirect: false,
       ...(needTurnstile && turnstileToken ? { turnstileToken } : {}),
     })
@@ -77,7 +79,7 @@ export default function SignUpForm() {
       return
     }
 
-    router.push('/onboarding')
+    router.push(onboardingUrl)
   }
 
   return (

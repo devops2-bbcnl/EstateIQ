@@ -11,10 +11,16 @@ export default {
   callbacks: {
     async session({ session, token }) {
       if (token.sub) session.user.id = token.sub
+      if (typeof token.email === 'string') session.user.email = token.email
+      if (typeof token.name === 'string') session.user.name = token.name
       return session
     },
     async jwt({ token, user }) {
-      if (user) token.sub = user.id
+      if (user) {
+        token.sub = user.id
+        if (user.email) token.email = user.email
+        if (user.name) token.name = user.name
+      }
       return token
     },
   },

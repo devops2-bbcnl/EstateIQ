@@ -3,6 +3,8 @@ import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Building2, User, Home, CheckCircle2, ChevronRight, ChevronLeft, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { fetchJson } from '@/lib/fetchJson'
+import { openPaystackInlinePopup } from '@/lib/paystackInline'
 
 const STEPS = [
   { id: 1, label: 'Your estate',  icon: Building2 },
@@ -79,8 +81,73 @@ export default function OnboardingWizard({ userName = '' }: Props) {
     }
 
     if (plan === 'PROFESSIONAL') {
-      router.push('/subscribe')
+      const payKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY
+      if (!payKey) {
+        setError('Payment could not start (configuration). You can complete payment from the dashboard.')
+        setLoading(false)
+        router.push('/subscribe')
+        return
+      }
+
+      const { data, error: initError } = await fetchJson<{
+        url: string
+        accessCode?: string
+        customerEmail?: string
+        amountKobo?: number
+      }>('/api/subscription/initialize', { method: 'POST' })
+
+      if (initError || !data) {
+        setError(initError ?? 'Could not start payment. Try again from Billing.')
+        setLoading(false)
+        router.push('/subscribe')
+        return
+      }
+
+      if (!data.accessCode && data.url) {
+        setLoading(false)
+        window.location.href = data.url
+        return
+      }
+
+      if (!data.accessCode) {
+        setError('Could not start payment. Try again from Billing.')
+        setLoading(false)
+        router.push('/subscribe')
+        return
+      }
+
+      setLoading(false)
+
+      const payEmail = data.customerEmail?.trim()
+      const payAmount = data.amountKobo
+      if (!payEmail || !payAmount) {
+        if (data.url) window.location.href = data.url
+        else {
+          setError('Could not start payment. Try again from Billing.')
+          router.push('/subscribe')
+        }
+        return
+      }
+
+      try {
+        await openPaystackInlinePopup({
+          accessCode: data.accessCode,
+          publicKey:  payKey,
+          email:      payEmail,
+          amountKobo: payAmount,
+          onSuccess:  () => router.push('/subscribe/success'),
+          onClose:    () => router.push('/subscribe'),
+        })
+      } catch (e) {
+        if (data.url) {
+          window.location.href = data.url
+          return
+        }
+        setError(e instanceof Error ? e.message : 'Payment window failed to open.')
+        router.push('/subscribe')
+      }
     } else {
+      setLoading(false)
       router.push(`/${form.slug}`)
     }
   }
@@ -304,7 +371,7 @@ export default function OnboardingWizard({ userName = '' }: Props) {
                 {loading ? (
                   <><Loader2 size={15} className="animate-spin" /> Setting up...</>
                 ) : (
-                  <><CheckCircle2 size={15} /> Launch Kynjo.Homes</>
+                  <><CheckCircle2 size={15} /> Launch estate</>
                 )}
               </button>
             )}

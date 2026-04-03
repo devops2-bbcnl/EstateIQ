@@ -24,6 +24,20 @@ transporter.verify((error) => {
   }
 })
 
+/** Logo row + Body marker — identical to invite emails (img points at public /logo.png on app origin). */
+function emailLogoRowHtml(logoUrl: string) {
+  return `
+          <!-- Logo -->
+          <tr>
+            <td style="padding:24px 32px 0;text-align:center">
+              <img src="${logoUrl}" alt="Kynjo.Homes" width="231" height="66" style="display:block;margin:0 auto;max-width:231px;height:auto;border-radius:4px"/>
+            </td>
+          </tr>
+
+          <!-- Body -->
+`
+}
+
 export async function sendInviteEmail({
   to,
   firstName,
@@ -72,16 +86,7 @@ If you did not expect this invitation, you can ignore this email.
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;padding:40px 0">
     <tr>
       <td align="center">
-        <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:4px;overflow:hidden;border:1px solid #e5e7eb">
-
-          <!-- Logo -->
-          <tr>
-            <td style="padding:24px 32px 0;text-align:center">
-              <img src="${logoUrl}" alt="Kynjo.Homes" width="231" height="66" style="display:block;margin:0 auto;max-width:231px;height:auto;border-radius:4px"/>
-            </td>
-          </tr>
-
-          <!-- Body -->
+        <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:4px;overflow:hidden;border:1px solid #e5e7eb">${emailLogoRowHtml(logoUrl)}
           <tr>
             <td style="padding:36px 32px">
               <h2 style="font-size:20px;color:#111827;font-weight:600;margin:0 0 8px">
@@ -147,6 +152,102 @@ If you did not expect this invitation, you can ignore this email.
   })
 
   console.log('[Email] Sent successfully. Message ID:', info.messageId)
+}
+
+export async function sendOnboardingWelcomeEmail({
+  to,
+  firstName,
+  estateName,
+  estateUrl,
+}: {
+  to: string
+  firstName: string
+  estateName: string
+  estateUrl: string
+}) {
+  const baseUrl = getPublicAppOrigin()
+  const logoUrl = `${baseUrl}/logo.png`
+
+  const info = await transporter.sendMail({
+    from: process.env.SMTP_FROM,
+    to,
+    subject: `Welcome — ${estateName} is live on Kynjo.Homes`,
+    text: `
+Hello ${firstName},
+
+Your estate is set up on Kynjo.Homes.
+
+Estate: ${estateName}
+Your estate URL: ${estateUrl}
+
+Open the link above to view your estate’s public page. Sign in to manage residents, units, and more from your dashboard.
+
+— Kynjo.Homes
+    `.trim(),
+    html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body style="margin:0;padding:0;background:#f9fafb;font-family:Arial,sans-serif">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;padding:40px 0">
+    <tr>
+      <td align="center">
+        <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:4px;overflow:hidden;border:1px solid #e5e7eb">${emailLogoRowHtml(logoUrl)}
+          <tr>
+            <td style="padding:36px 32px">
+              <h2 style="font-size:20px;color:#111827;font-weight:600;margin:0 0 8px">
+                Welcome, ${firstName}
+              </h2>
+              <p style="font-size:15px;color:#4b5563;line-height:1.6;margin:0 0 16px">
+                <strong style="color:#111827">${estateName}</strong> is live on Kynjo.Homes. Your estate’s public URL is ready to share.
+              </p>
+              <table cellpadding="0" cellspacing="0" style="margin:0 0 28px">
+                <tr>
+                  <td style="background:#16a34a;border-radius:4px;padding:0">
+                    <a href="${estateUrl}"
+                      style="display:inline-block;padding:14px 32px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;border-radius:4px">
+                      Open your estate
+                    </a>
+                  </td>
+                </tr>
+              </table>
+              <p style="font-size:13px;color:#9ca3af;margin:0 0 8px">
+                Your estate URL (copy and share):
+              </p>
+              <p style="font-size:12px;color:#6b7280;word-break:break-all;margin:0 0 24px;background:#f9fafb;padding:10px 12px;border-radius:4px;border:1px solid #e5e7eb">
+                ${estateUrl}
+              </p>
+              <p style="font-size:13px;color:#9ca3af;margin:0">
+                Sign in anytime to manage residents, units, and settings from your dashboard.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td style="background:#f9fafb;padding:20px 32px;border-top:1px solid #e5e7eb;text-align:center">
+              <p style="font-size:12px;color:#9ca3af;margin:0">
+                Kynjo.Homes · Smart estate management
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+    `,
+    headers: {
+      'X-Mailer': 'Kynjo.Homes Mailer',
+      'X-Priority': '3',
+      'X-MSMail-Priority': 'Normal',
+      Importance: 'Normal',
+    },
+  })
+
+  console.log('[Email] Onboarding welcome sent. Message ID:', info.messageId)
 }
 
 export async function sendPasswordResetEmail({

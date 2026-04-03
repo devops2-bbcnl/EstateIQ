@@ -7,13 +7,13 @@ export default function ContactDetails() {
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Corporate</h2>
-        <p className="mt-1 text-sm font-medium text-gray-800">{info.companyName}</p>
+        <h2 className="text-sm font-semibold text-white/90 uppercase tracking-wide">Corporate</h2>
+        <p className="mt-1 text-sm font-medium text-white/95">{info.companyName}</p>
       </div>
 
       <div className="flex gap-3">
-        <MapPin className="size-5 text-green-600 shrink-0 mt-0.5" aria-hidden />
-        <address className="text-sm text-gray-600 not-italic leading-relaxed">
+        <MapPin className="size-5 text-green-300 shrink-0 mt-0.5" aria-hidden />
+        <address className="text-sm text-white/90 not-italic leading-relaxed">
           {info.addressLines.map((line) => (
             <span key={line} className="block">
               {line}
@@ -23,39 +23,39 @@ export default function ContactDetails() {
       </div>
 
       <div className="flex gap-3 items-start">
-        <Phone className="size-5 text-green-600 shrink-0 mt-0.5" aria-hidden />
+        <Phone className="size-5 text-green-300 shrink-0 mt-0.5" aria-hidden />
         <div className="text-sm">
-          <a href={info.phoneTelHref} className="text-gray-800 hover:text-green-600 font-medium">
+          <a href={info.phoneTelHref} className="text-white/95 hover:text-green-300 font-medium">
             {info.phoneDisplay}
           </a>
         </div>
       </div>
 
       <div className="flex gap-3 items-start">
-        <Mail className="size-5 text-green-600 shrink-0 mt-0.5" aria-hidden />
+        <Mail className="size-5 text-green-300 shrink-0 mt-0.5" aria-hidden />
         <a
           href={`mailto:${info.email}`}
-          className="text-sm text-gray-800 hover:text-green-600 font-medium break-all"
+          className="text-sm text-white/95 hover:text-green-300 font-medium break-all"
         >
           {info.email}
         </a>
       </div>
 
       <div className="flex gap-3 items-start">
-        <MessageCircle className="size-5 text-green-600 shrink-0 mt-0.5" aria-hidden />
+        <MessageCircle className="size-5 text-green-300 shrink-0 mt-0.5" aria-hidden />
         <a
           href={info.whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm text-green-600 hover:underline font-medium"
+          className="text-sm text-green-200 hover:text-white hover:underline font-medium"
         >
           Chat on WhatsApp
         </a>
       </div>
 
-      <p className="text-xs text-gray-500 pt-2 border-t border-gray-100">
+      <p className="text-xs text-white/85 pt-2 border-t border-white/25">
         For privacy-related requests, email{' '}
-        <a href="mailto:privacy@kynjo.homes" className="text-green-600 hover:underline">
+        <a href="mailto:privacy@kynjo.homes" className="text-green-200 hover:text-white hover:underline">
           privacy@kynjo.homes
         </a>
         .

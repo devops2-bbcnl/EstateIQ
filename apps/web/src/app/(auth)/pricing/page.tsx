@@ -10,7 +10,7 @@ export default function PricingPage() {
 
   function handleSelect(planId: string) {
     if (planId === 'CUSTOM') {
-      window.location.href = 'mailto:sales@kynjo.homes?subject=Custom plan enquiry'
+      router.push('/contact')
       return
     }
     router.push(`/sign-up?plan=${planId}`)

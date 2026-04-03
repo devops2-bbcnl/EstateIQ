@@ -25,8 +25,7 @@ const Pricing = () => {
 
   function handleSelect(planId: string) {
     if (planId === "CUSTOM") {
-      window.location.href =
-        "mailto:sales@kynjo.homes?subject=Custom plan enquiry";
+      router.push("/contact");
       return;
     }
     router.push(`/sign-up?plan=${planId}`);
@@ -134,10 +133,10 @@ const Pricing = () => {
           All plans include a 7-day trial of Professional features after sign-up.
           Questions?{" "}
           <a
-            href="mailto:hello@kynjo.homes"
+            href="mailto:contact@kynjo.homes"
             className="text-primary hover:underline"
           >
-            hello@kynjo.homes
+            contact@kynjo.homes
           </a>
         </p>
       </div>

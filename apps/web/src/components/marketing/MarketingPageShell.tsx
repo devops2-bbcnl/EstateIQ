@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import logo from '@/components/images/logo2.png'
+import logo from '@/components/images/logo.png'
 
 type MarketingPageShellProps = {
   title: string
