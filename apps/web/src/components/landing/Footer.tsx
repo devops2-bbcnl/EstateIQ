@@ -26,7 +26,7 @@ const Footer = () => (
           <Link href="/" className="flex items-center gap-2 mb-4">
             <Image
               src={logo}
-              alt="EstateIQ - Intelligent Estate Management Platform"
+              alt="Kynjo.Homes - Intelligent Estate Management Platform"
               height={64}
               width={224}
               className="h-16 w-auto object-contain"
@@ -54,7 +54,7 @@ const Footer = () => (
       </div>
 
       <div className="mt-14 pt-6 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4">
-        <span className="text-xs text-muted-foreground">© 2026 EstateIQ. All rights reserved.</span>
+        <span className="text-xs text-muted-foreground">© 2026 Kynjo.Homes. All rights reserved.</span>
         <div className="flex gap-5">
           {["Twitter", "LinkedIn", "GitHub"].map((s) => (
             <a key={s} href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">

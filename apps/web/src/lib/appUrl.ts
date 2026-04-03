@@ -2,7 +2,7 @@
  * Canonical public origin for links and assets in outbound email.
  * When NEXTAUTH_URL is localhost (typical in dev), emails still need a real host.
  */
-const DEFAULT_PUBLIC_ORIGIN = 'https://estateiq.homes'
+const DEFAULT_PUBLIC_ORIGIN = 'https://kynjo.homes'
 
 function isLocalhostOrigin(url: string): boolean {
   try {

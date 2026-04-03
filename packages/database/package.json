@@ -10,7 +10,7 @@
   "keywords": [],
   "author": "Bubble Barrel Commerce Limited",
   "license": "ISC",
-  "description": "EstateIQ Database",
+  "description": "Kynjo.Homes database",
   "devDependencies": {
     "dotenv": "^17.3.1",
     "prisma": "^6.19.2"

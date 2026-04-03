@@ -47,7 +47,7 @@ import {
             <View style={styles.logoBox}>
               <Text style={styles.logoText}>EQ</Text>
             </View>
-            <Text style={styles.appName}>EstateIQ</Text>
+            <Text style={styles.appName}>Kynjo.Homes</Text>
             <Text style={styles.tagline}>Smart estate management</Text>
           </View>
   

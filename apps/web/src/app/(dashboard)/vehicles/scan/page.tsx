@@ -72,7 +72,7 @@ export default function GateScanPage() {
         <div className="flex justify-center mb-3">
           <Image
             src={logo}
-            alt="EstateIQ"
+            alt="Kynjo.Homes"
             height={64}
             width={224}
             className="h-16 w-auto object-contain"
@@ -146,7 +146,7 @@ export default function GateScanPage() {
       )}
 
       <p className="text-gray-600 text-xs mt-8">
-        EstateIQ · Vehicle Access Control
+        Kynjo.Homes · Vehicle Access Control
       </p>
     </div>
     </SubscriptionGate>

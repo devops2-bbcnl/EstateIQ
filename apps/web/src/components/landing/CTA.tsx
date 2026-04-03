@@ -5,7 +5,11 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
 
-const CTA = () => {
+type CTAProps = {
+  isLoggedIn?: boolean;
+};
+
+const CTA = ({ isLoggedIn = false }: CTAProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -25,7 +29,7 @@ const CTA = () => {
           Ready to modernize your estate?
         </h2>
         <p className="mt-4 text-background/60 text-lg leading-relaxed max-w-lg mx-auto">
-          Join hundreds of communities that switched from spreadsheets and group chats to EstateIQ.
+          Join hundreds of communities that switched from spreadsheets and group chats to Kynjo.Homes.
         </p>
         <div className="mt-8 flex flex-wrap gap-3 justify-center">
           <Button
@@ -33,8 +37,8 @@ const CTA = () => {
             className="bg-primary hover:bg-primary-dark text-primary-foreground gap-2 active:scale-[0.97] transition-all shadow-lg shadow-primary/25"
             asChild
           >
-            <Link href="/sign-up">
-              Start Free Trial
+            <Link href={isLoggedIn ? "/dashboard" : "/sign-up"}>
+              {isLoggedIn ? "Go to dashboard" : "Start Free Trial"}
               <ArrowRight size={16} />
             </Link>
           </Button>
@@ -44,7 +48,9 @@ const CTA = () => {
             className="border-background/20 text-black hover:bg-background/10 active:scale-[0.97] transition-all"
             asChild
           >
-            <Link href="/sign-up">Talk to Sales</Link>
+            <Link href={isLoggedIn ? "#pricing" : "/sign-up"}>
+              {isLoggedIn ? "View pricing" : "Talk to Sales"}
+            </Link>
           </Button>
         </div>
       </div>

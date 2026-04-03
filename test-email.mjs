@@ -19,9 +19,9 @@ transporter.verify((error, success) => {
 })
 
 await transporter.sendMail({
-  from:    'EstateIQ <gocitek@gmail.com>',
+  from:    'Kynjo.Homes <gocitek@gmail.com>',
   to:      'gocitek@gmail.com',      // ← send to yourself to test
-  subject: 'EstateIQ test email',
+  subject: 'Kynjo.Homes test email',
   text:    'If you see this, SMTP is working.',
 })
 

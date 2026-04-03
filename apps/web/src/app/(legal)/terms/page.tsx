@@ -11,7 +11,7 @@ export default function TermsPage() {
           <div className="w-10 h-10 bg-green-600 rounded-xl flex items-center justify-center">
             <Building2 size={20} className="text-white" />
           </div>
-          <span className="text-xl font-bold text-gray-900">EstateIQ</span>
+          <span className="text-xl font-bold text-gray-900">Kynjo.Homes</span>
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-100 p-8 space-y-8">
@@ -23,11 +23,11 @@ export default function TermsPage() {
           {[
             {
               title: '1. Acceptance of terms',
-              body: 'By creating an account on EstateIQ, you agree to be bound by these Terms of Service and our Privacy Policy. If you are registering on behalf of an estate or organisation, you confirm you have authority to bind that organisation to these terms.',
+              body: 'By creating an account on Kynjo.Homes, you agree to be bound by these Terms of Service and our Privacy Policy. If you are registering on behalf of an estate or organisation, you confirm you have authority to bind that organisation to these terms.',
             },
             {
               title: '2. Description of service',
-              body: 'EstateIQ is a software-as-a-service platform for estate and neighbourhood management. Features include resident management, levy collection, visitor access management, maintenance tracking, facility booking, voting, security incident reporting, and vehicle access control.',
+              body: 'Kynjo.Homes is a software-as-a-service platform for estate and neighbourhood management. Features include resident management, levy collection, visitor access management, maintenance tracking, facility booking, voting, security incident reporting, and vehicle access control.',
             },
             {
               title: '3. Account responsibilities',
@@ -35,7 +35,7 @@ export default function TermsPage() {
             },
             {
               title: '4. Payment and dues collection',
-              body: 'EstateIQ facilitates payment collection between residents and estate management committees. Payments are processed by Paystack in accordance with their terms of service. EstateIQ is not a financial institution and does not hold funds on behalf of estates or residents.',
+              body: 'Kynjo.Homes facilitates payment collection between residents and estate management committees. Payments are processed by Paystack in accordance with their terms of service. Kynjo.Homes is not a financial institution and does not hold funds on behalf of estates or residents.',
             },
             {
               title: '5. Vehicle access and scanning',
@@ -43,11 +43,11 @@ export default function TermsPage() {
             },
             {
               title: '6. Acceptable use',
-              body: 'You agree not to use EstateIQ for any unlawful purpose, to harass or harm other users, to transmit false or misleading information, or to attempt to gain unauthorised access to any part of the platform or other users\' data.',
+              body: 'You agree not to use Kynjo.Homes for any unlawful purpose, to harass or harm other users, to transmit false or misleading information, or to attempt to gain unauthorised access to any part of the platform or other users\' data.',
             },
             {
               title: '7. Data and privacy',
-              body: 'Your use of EstateIQ is governed by our Privacy Policy which is incorporated into these terms. We process your personal data in accordance with the Nigeria Data Protection Act (NDPA) 2023.',
+              body: 'Your use of Kynjo.Homes is governed by our Privacy Policy which is incorporated into these terms. We process your personal data in accordance with the Nigeria Data Protection Act (NDPA) 2023.',
             },
             {
               title: '8. Service availability',
@@ -59,7 +59,7 @@ export default function TermsPage() {
             },
             {
               title: '10. Limitation of liability',
-              body: 'EstateIQ is provided on an "as is" basis. To the maximum extent permitted by Nigerian law, we are not liable for indirect, incidental, or consequential damages arising from your use of the platform. Our total liability shall not exceed the amount paid by you in the 12 months preceding the claim.',
+              body: 'Kynjo.Homes is provided on an "as is" basis. To the maximum extent permitted by Nigerian law, we are not liable for indirect, incidental, or consequential damages arising from your use of the platform. Our total liability shall not exceed the amount paid by you in the 12 months preceding the claim.',
             },
             {
               title: '11. Governing law',
@@ -67,7 +67,7 @@ export default function TermsPage() {
             },
             {
               title: '12. Contact',
-              body: 'For questions about these terms, contact us at legal@estateiq.app',
+              body: 'For questions about these terms, contact us at legal@kynjo.homes',
             },
           ].map(({ title, body }) => (
             <div key={title}>

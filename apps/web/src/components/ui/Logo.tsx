@@ -35,7 +35,7 @@ interface Props {
             letterSpacing: '-0.3px',
             lineHeight:   1,
           }}>
-            EstateIQ
+            Kynjo.Homes
           </span>
         )}
       </div>

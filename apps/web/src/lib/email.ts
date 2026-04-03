@@ -44,12 +44,12 @@ export async function sendInviteEmail({
   const info = await transporter.sendMail({
     from:     process.env.SMTP_FROM,
     to,
-    subject:  `You have been invited to join ${estateName} on EstateIQ`,
+    subject:  `You have been invited to join ${estateName} on Kynjo.Homes`,
     // Plain text fallback
     text: `
 Hello ${firstName},
 
-You have been added as a resident of ${estateName} on EstateIQ.
+You have been added as a resident of ${estateName} on Kynjo.Homes.
 
 Click the link below to set up your password and activate your account:
 ${inviteUrl}
@@ -58,7 +58,7 @@ This link expires in 48 hours.
 
 If you did not expect this invitation, you can ignore this email.
 
-— EstateIQ
+— Kynjo.Homes
     `.trim(),
     // HTML version
     html: `
@@ -77,7 +77,7 @@ If you did not expect this invitation, you can ignore this email.
           <!-- Logo -->
           <tr>
             <td style="padding:24px 32px 0;text-align:center">
-              <img src="${logoUrl}" alt="EstateIQ" width="231" height="66" style="display:block;margin:0 auto;max-width:231px;height:auto;border-radius:4px"/>
+              <img src="${logoUrl}" alt="Kynjo.Homes" width="231" height="66" style="display:block;margin:0 auto;max-width:231px;height:auto;border-radius:4px"/>
             </td>
           </tr>
 
@@ -90,7 +90,7 @@ If you did not expect this invitation, you can ignore this email.
               <p style="font-size:15px;color:#4b5563;line-height:1.6;margin:0 0 24px">
                 You have been added as a resident of
                 <strong style="color:#111827">${estateName}</strong>
-                on EstateIQ. Click the button below to set up your
+                on Kynjo.Homes. Click the button below to set up your
                 password and activate your account.
               </p>
 
@@ -125,7 +125,7 @@ If you did not expect this invitation, you can ignore this email.
           <tr>
             <td style="background:#f9fafb;padding:20px 32px;border-top:1px solid #e5e7eb;text-align:center">
               <p style="font-size:12px;color:#9ca3af;margin:0">
-                EstateIQ · Smart estate management
+                Kynjo.Homes · Smart estate management
               </p>
             </td>
           </tr>
@@ -139,7 +139,7 @@ If you did not expect this invitation, you can ignore this email.
     `,
     // These headers improve deliverability significantly
     headers: {
-      'X-Mailer':          'EstateIQ Mailer',
+      'X-Mailer':          'Kynjo.Homes Mailer',
       'X-Priority':        '3',
       'X-MSMail-Priority': 'Normal',
       'Importance':        'Normal',
@@ -157,12 +157,12 @@ export async function sendPasswordResetEmail({
   await transporter.sendMail({
     from:    process.env.SMTP_FROM,
     to,
-    subject: 'Reset your EstateIQ password',
+    subject: 'Reset your Kynjo.Homes password',
     text:    `Hello ${name},\n\nClick this link to reset your password:\n${resetUrl}\n\nThis link expires in 1 hour. If you did not request this, ignore this email.`,
     html: `
       <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px">
         <div style="background:#16a34a;border-radius:12px;padding:24px;text-align:center;margin-bottom:24px">
-          <h1 style="color:#fff;font-size:24px;margin:0">EstateIQ</h1>
+          <h1 style="color:#fff;font-size:24px;margin:0">Kynjo.Homes</h1>
         </div>
         <h2 style="color:#111827">Reset your password</h2>
         <p style="color:#4b5563;line-height:1.6">Hello ${name},<br/><br/>

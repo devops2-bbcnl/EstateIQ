@@ -15,7 +15,7 @@ const faqs = [
   },
   {
     q: "Do residents need to download an app?",
-    a: "EstateIQ works as a progressive web app, so residents can use it from any browser. Native iOS and Android apps are also available for a richer experience.",
+    a: "Kynjo.Homes works as a progressive web app, so residents can use it from any browser. Native iOS and Android apps are also available for a richer experience.",
   },
   {
     q: "Can we migrate from spreadsheets or another tool?",

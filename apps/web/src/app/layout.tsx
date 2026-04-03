@@ -8,7 +8,7 @@ if (typeof window === 'undefined') {
 }
 
 export const metadata: Metadata = {
-  title: 'EstateIQ',
+  title: 'Kynjo.Homes',
   description: 'Smart estate management for modern neighborhoods',
 }
 

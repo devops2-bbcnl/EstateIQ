@@ -87,14 +87,14 @@ export default function SignUpForm() {
           <div className="flex justify-center mb-3">
             <Image
               src={logo}
-              alt="EstateIQ"
+              alt="Kynjo.Homes"
               height={66}
               width={231}
               className="h-[66px] w-auto object-contain"
             />
           </div>
           <h1 className="text-2xl font-semibold text-gray-900">Create your account</h1>
-          <p className="text-gray-500 text-sm mt-1">Get your estate on EstateIQ in minutes</p>
+          <p className="text-gray-500 text-sm mt-1">Get your estate on Kynjo.Homes in minutes</p>
         </div>
 
         {error && (

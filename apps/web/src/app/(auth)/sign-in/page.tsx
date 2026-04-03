@@ -58,14 +58,14 @@ export default function SignInPage() {
         <div className="flex justify-center mb-6">
           <Image
             src={logo}
-            alt="EstateIQ"
+            alt="Kynjo.Homes"
             height={66}
             width={231}
             className="h-[66px] w-auto object-contain"
           />
         </div>
         <h1 className="text-2xl font-semibold text-gray-900 mb-2">Login</h1>
-        <p className="text-gray-500 text-sm mb-6">Sign in to your EstateIQ account</p>
+        <p className="text-gray-500 text-sm mb-6">Sign in to your Kynjo.Homes account</p>
 
         {error && (
           <div className="bg-red-50 text-red-700 text-sm px-4 py-3 rounded mb-4">

@@ -12,7 +12,11 @@ const stats = [
   { icon: ShieldCheck, value: "99.8%", label: "Uptime" },
 ];
 
-const Hero = () => {
+type HeroProps = {
+  isLoggedIn?: boolean;
+};
+
+const Hero = ({ isLoggedIn = false }: HeroProps) => {
   return (
     <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
       {/* Background image with overlay */}
@@ -50,8 +54,8 @@ const Hero = () => {
               className="bg-primary hover:bg-primary-dark text-primary-foreground gap-2 active:scale-[0.97] transition-all shadow-lg shadow-primary/25"
               asChild
             >
-              <Link href="/sign-up">
-                Start Free Trial
+              <Link href={isLoggedIn ? "/dashboard" : "/sign-up"}>
+                {isLoggedIn ? "Go to dashboard" : "Start Free Trial"}
                 <ArrowRight size={16} />
               </Link>
             </Button>
@@ -61,7 +65,9 @@ const Hero = () => {
               className="border-mist/30 text-black hover:bg-mist/10 active:scale-[0.97] transition-all"
               asChild
             >
-              <Link href="/sign-up">Book a Demo</Link>
+              <Link href={isLoggedIn ? "#features" : "/sign-up"}>
+                {isLoggedIn ? "Explore features" : "Book a Demo"}
+              </Link>
             </Button>
           </div>
         </div>

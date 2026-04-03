@@ -25,7 +25,7 @@ export default function VehicleStickerModal({ vehicle, onClose }: Props) {
       <!DOCTYPE html>
       <html>
       <head>
-        <title>EstateIQ Vehicle Sticker — ${vehicle.plateNumber}</title>
+        <title>Kynjo.Homes Vehicle Sticker — ${vehicle.plateNumber}</title>
         <style>
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f9fafb; }
@@ -45,7 +45,7 @@ export default function VehicleStickerModal({ vehicle, onClose }: Props) {
       <body>
         <div class="sticker">
           <div class="header">
-            <h1>EstateIQ</h1>
+            <h1>Kynjo.Homes</h1>
             <p>Vehicle Access Pass</p>
           </div>
           <div class="qr">
@@ -83,7 +83,7 @@ export default function VehicleStickerModal({ vehicle, onClose }: Props) {
           <div className="border-2 border-green-500 rounded-xl overflow-hidden">
             {/* Header */}
             <div className="bg-green-600 px-4 py-3 text-center">
-              <p className="text-white font-bold text-lg">EstateIQ</p>
+              <p className="text-white font-bold text-lg">Kynjo.Homes</p>
               <p className="text-green-100 text-xs">Vehicle Access Pass</p>
             </div>
 

@@ -10,7 +10,7 @@ export default function PricingPage() {
 
   function handleSelect(planId: string) {
     if (planId === 'CUSTOM') {
-      window.location.href = 'mailto:sales@estateiq.app?subject=Custom plan enquiry'
+      window.location.href = 'mailto:sales@kynjo.homes?subject=Custom plan enquiry'
       return
     }
     router.push(`/sign-up?plan=${planId}`)
@@ -26,7 +26,7 @@ export default function PricingPage() {
             <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
               <Building2 size={16} className="text-white" />
             </div>
-            <span className="font-bold text-gray-900">EstateIQ</span>
+            <span className="font-bold text-gray-900">Kynjo.Homes</span>
           </Link>
           <Link href="/sign-in" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
             Sign in
@@ -123,8 +123,8 @@ export default function PricingPage() {
           <p className="text-sm text-gray-400">
             All plans include a 7-day trial of Professional features after sign-up.
             Questions?{' '}
-            <a href="mailto:hello@estateiq.app" className="text-green-600 hover:underline">
-              hello@estateiq.app
+            <a href="mailto:hello@kynjo.homes" className="text-green-600 hover:underline">
+              hello@kynjo.homes
             </a>
           </p>
         </div>

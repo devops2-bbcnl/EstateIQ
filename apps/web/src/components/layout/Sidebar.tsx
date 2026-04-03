@@ -143,7 +143,7 @@ export default function Sidebar() {
       >
         <Image
           src={logo}
-          alt="EstateIQ"
+          alt="Kynjo.Homes"
           width={showCollapsed ? 32 : 140}
           height={showCollapsed ? 32 : 40}
           className={cn(

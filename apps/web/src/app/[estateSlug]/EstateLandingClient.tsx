@@ -92,7 +92,7 @@ export default function EstateLandingClient({ estate }: Props) {
           <Link href="/" className="flex items-center gap-2.5 shrink-0">
             <Image
               src={logo}
-              alt="EstateIQ"
+              alt="Kynjo.Homes"
               height={32}
               width={110}
               className="h-8 w-auto object-contain rounded"
@@ -145,7 +145,7 @@ export default function EstateLandingClient({ estate }: Props) {
           {/* Estate badge */}
           <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm text-white text-sm px-4 py-2 rounded mb-8 border border-white/20">
             <div className="w-2 h-2 rounded-full bg-green-300 animate-pulse" />
-            Managed by EstateIQ
+            Managed by Kynjo.Homes
           </div>
 
           {/* Estate name */}
@@ -202,7 +202,7 @@ export default function EstateLandingClient({ estate }: Props) {
               Everything your estate needs
             </h2>
             <p className="text-gray-500 text-lg max-w-xl mx-auto">
-              {estate.name} uses EstateIQ to manage every aspect of community living in one place.
+              {estate.name} uses Kynjo.Homes to manage every aspect of community living in one place.
             </p>
           </div>
 
@@ -232,7 +232,7 @@ export default function EstateLandingClient({ estate }: Props) {
               How it works for residents
             </h2>
             <p className="text-gray-500">
-              Getting started with {estate.name} on EstateIQ takes less than 2 minutes.
+              Getting started with {estate.name} on Kynjo.Homes takes less than 2 minutes.
             </p>
           </div>
 
@@ -292,7 +292,7 @@ export default function EstateLandingClient({ estate }: Props) {
           <Link href="/" className="flex items-center gap-2.5">
             <Image
               src={logo}
-              alt="EstateIQ"
+              alt="Kynjo.Homes"
               height={28}
               width={96}
               className="h-7 w-auto object-contain rounded"
@@ -305,7 +305,7 @@ export default function EstateLandingClient({ estate }: Props) {
           </div>
 
           <p className="text-gray-500 text-xs">
-            {estate.name} · Powered by EstateIQ
+            {estate.name} · Powered by Kynjo.Homes
           </p>
         </div>
       </footer>

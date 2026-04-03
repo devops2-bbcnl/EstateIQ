@@ -49,7 +49,7 @@ const HowItWorks = () => {
             Up and running in a single afternoon
           </h2>
           <p className="mt-4 text-muted-foreground leading-relaxed">
-            No consultants, no month-long rollouts. EstateIQ is designed to be self-serve from day one.
+            No consultants, no month-long rollouts. Kynjo.Homes is designed to be self-serve from day one.
           </p>
         </div>
 

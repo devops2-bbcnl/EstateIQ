@@ -1,5 +1,5 @@
 {
-  "name": "estateiq",
+  "name": "kynjo.homes",
   "private": true,
   "scripts": {
     "build": "turbo run build",

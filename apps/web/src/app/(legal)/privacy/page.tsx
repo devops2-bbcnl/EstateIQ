@@ -10,7 +10,7 @@ export default function PrivacyPage() {
           <div className="w-10 h-10 bg-green-600 rounded-xl flex items-center justify-center">
             <Building2 size={20} className="text-white" />
           </div>
-          <span className="text-xl font-bold text-gray-900">EstateIQ</span>
+          <span className="text-xl font-bold text-gray-900">Kynjo.Homes</span>
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-100 p-8 space-y-8">
@@ -22,7 +22,7 @@ export default function PrivacyPage() {
           {[
             {
               title: '1. Who we are',
-              body: 'EstateIQ is an estate management platform operated in Nigeria. We are committed to protecting your personal data and complying with the Nigeria Data Protection Act (NDPA) 2023 and the Nigeria Data Protection Regulation (NDPR).',
+              body: 'Kynjo.Homes is an estate management platform operated in Nigeria. We are committed to protecting your personal data and complying with the Nigeria Data Protection Act (NDPA) 2023 and the Nigeria Data Protection Regulation (NDPR).',
             },
             {
               title: '2. Data we collect',
@@ -30,7 +30,7 @@ export default function PrivacyPage() {
             },
             {
               title: '3. How we use your data',
-              body: 'We use your data to provide and operate the EstateIQ platform, to process levy payments and send payment confirmations, to manage visitor and vehicle access to your estate, to send important announcements and platform notifications, to investigate security incidents, to comply with legal obligations, and to improve our services.',
+              body: 'We use your data to provide and operate the Kynjo.Homes platform, to process levy payments and send payment confirmations, to manage visitor and vehicle access to your estate, to send important announcements and platform notifications, to investigate security incidents, to comply with legal obligations, and to improve our services.',
             },
             {
               title: '4. Legal basis for processing',
@@ -50,7 +50,7 @@ export default function PrivacyPage() {
             },
             {
               title: '8. Your rights',
-              body: 'Under the NDPA 2023, you have the right to access your personal data, correct inaccurate data, request deletion of your data, object to processing, request restriction of processing, and data portability. To exercise any of these rights, contact privacy@estateiq.app. We will respond within 30 days.',
+              body: 'Under the NDPA 2023, you have the right to access your personal data, correct inaccurate data, request deletion of your data, object to processing, request restriction of processing, and data portability. To exercise any of these rights, contact privacy@kynjo.homes. We will respond within 30 days.',
             },
             {
               title: '9. Data security',
@@ -66,7 +66,7 @@ export default function PrivacyPage() {
             },
             {
               title: '12. Contact',
-              body: 'For privacy-related enquiries or to exercise your rights under the NDPA, contact us at privacy@estateiq.app or write to our Data Protection Officer.',
+              body: 'For privacy-related enquiries or to exercise your rights under the NDPA, contact us at privacy@kynjo.homes or write to our Data Protection Officer.',
             },
           ].map(({ title, body }) => (
             <div key={title}>

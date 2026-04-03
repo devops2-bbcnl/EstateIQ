@@ -7,7 +7,11 @@ import { Menu, X } from "lucide-react";
 import logo from "@/components/images/logo.png";
 import { Button } from "@/components/ui/button";
 
-const Navbar = () => {
+type NavbarProps = {
+  isLoggedIn?: boolean;
+};
+
+const Navbar = ({ isLoggedIn = false }: NavbarProps) => {
   const [open, setOpen] = useState(false);
 
   const links = [
@@ -23,7 +27,7 @@ const Navbar = () => {
         <Link href="/" className="flex items-center">
           <Image
             src={logo}
-            alt="EstateIQ"
+            alt="Kynjo.Homes"
             height={59}
             width={206}
             className="h-[59px] w-auto object-contain"
@@ -43,12 +47,20 @@ const Navbar = () => {
           ))}
         </div>
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="ghost" size="sm" className="text-muted-foreground" asChild>
-            <Link href="/sign-in">Log in</Link>
-          </Button>
-          <Button size="sm" className="bg-primary hover:bg-primary-dark text-primary-foreground active:scale-[0.97] transition-all" asChild>
-            <Link href="/sign-up">Get Started</Link>
-          </Button>
+          {isLoggedIn ? (
+            <Button size="sm" className="bg-primary hover:bg-primary-dark text-primary-foreground active:scale-[0.97] transition-all" asChild>
+              <Link href="/dashboard">Dashboard</Link>
+            </Button>
+          ) : (
+            <>
+              <Button variant="ghost" size="sm" className="text-muted-foreground" asChild>
+                <Link href="/sign-in">Log in</Link>
+              </Button>
+              <Button size="sm" className="bg-primary hover:bg-primary-dark text-primary-foreground active:scale-[0.97] transition-all" asChild>
+                <Link href="/sign-up">Get Started</Link>
+              </Button>
+            </>
+          )}
         </div>
 
         {/* Mobile toggle */}
@@ -76,12 +88,20 @@ const Navbar = () => {
               </a>
             ))}
             <div className="flex gap-3 pt-2">
-              <Button variant="ghost" size="sm" className="text-muted-foreground" asChild>
-                <Link href="/sign-in">Log in</Link>
-              </Button>
-              <Button size="sm" className="bg-primary hover:bg-primary-dark text-primary-foreground" asChild>
-                <Link href="/sign-up">Get Started</Link>
-              </Button>
+              {isLoggedIn ? (
+                <Button size="sm" className="bg-primary hover:bg-primary-dark text-primary-foreground" asChild>
+                  <Link href="/dashboard">Dashboard</Link>
+                </Button>
+              ) : (
+                <>
+                  <Button variant="ghost" size="sm" className="text-muted-foreground" asChild>
+                    <Link href="/sign-in">Log in</Link>
+                  </Button>
+                  <Button size="sm" className="bg-primary hover:bg-primary-dark text-primary-foreground" asChild>
+                    <Link href="/sign-up">Get Started</Link>
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>

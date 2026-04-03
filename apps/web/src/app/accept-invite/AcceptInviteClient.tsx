@@ -148,7 +148,7 @@ function AcceptInviteForm() {
           <div className="flex justify-center mb-4">
             <Image
               src={logo}
-              alt="EstateIQ"
+              alt="Kynjo.Homes"
               height={66}
               width={231}
               className="h-[66px] w-auto object-contain rounded"
@@ -309,7 +309,7 @@ function AcceptInviteForm() {
                     >
                       Privacy Policy
                     </Link>
-                    , including processing of my personal data by EstateIQ.
+                    , including processing of my personal data by Kynjo.Homes.
                   </label>
                 </div>
 

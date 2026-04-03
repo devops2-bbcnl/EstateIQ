@@ -96,7 +96,7 @@ export default function SubscribePage() {
           </button>
 
           <p className="text-center text-xs text-gray-400">
-            Payments secured by Paystack. No card stored on EstateIQ.
+            Payments secured by Paystack. No card stored on Kynjo.Homes.
           </p>
         </div>
       </div>

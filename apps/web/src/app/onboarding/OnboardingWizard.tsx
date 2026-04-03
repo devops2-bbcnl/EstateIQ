@@ -101,7 +101,7 @@ export default function OnboardingWizard({ userName = '' }: Props) {
           <div className="inline-flex items-center justify-center w-12 h-12 bg-brand-600 rounded-xl mb-4">
             <Building2 size={22} className="text-white" />
           </div>
-          <h1 className="text-2xl font-semibold text-gray-900">Set up EstateIQ</h1>
+          <h1 className="text-2xl font-semibold text-gray-900">Set up Kynjo.Homes</h1>
           <p className="text-gray-500 text-sm mt-1">Takes less than 2 minutes</p>
         </div>
 
@@ -167,7 +167,7 @@ export default function OnboardingWizard({ userName = '' }: Props) {
                 </label>
                 <div className="flex items-center border border-gray-200 rounded overflow-hidden focus-within:ring-2 focus-within:ring-green-600">
                   <span className="bg-gray-50 border-r border-gray-200 px-3 py-2.5 text-sm text-gray-400 shrink-0">
-                    estateiq.app/
+                    kynjo.homes/
                   </span>
                   <input
                     type="text" value={form.slug}
@@ -304,7 +304,7 @@ export default function OnboardingWizard({ userName = '' }: Props) {
                 {loading ? (
                   <><Loader2 size={15} className="animate-spin" /> Setting up...</>
                 ) : (
-                  <><CheckCircle2 size={15} /> Launch EstateIQ</>
+                  <><CheckCircle2 size={15} /> Launch Kynjo.Homes</>
                 )}
               </button>
             )}

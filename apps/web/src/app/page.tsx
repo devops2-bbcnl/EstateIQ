@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 
 import Navbar from '@/components/landing/Navbar'
@@ -13,19 +12,19 @@ import Footer from '@/components/landing/Footer'
 
 export default async function RootPage() {
   const session = await auth()
-  if (session) redirect('/dashboard')
+  const isLoggedIn = !!session
 
   return (
     <>
-      <Navbar />
+      <Navbar isLoggedIn={isLoggedIn} />
       <main>
-        <Hero />
+        <Hero isLoggedIn={isLoggedIn} />
         <Features />
         <HowItWorks />
         <Testimonials />
         <Pricing />
         <FAQ />
-        <CTA />
+        <CTA isLoggedIn={isLoggedIn} />
       </main>
       <Footer />
     </>
