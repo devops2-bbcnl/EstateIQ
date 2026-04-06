@@ -1,9 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Prisma must not be bundled into server chunks as a single static client — breaks Netlify/serverless
-  // when DATABASE_URL is only available at runtime.
-  serverExternalPackages: ["@prisma/client", "prisma", "@estateiq/database"],
+  // Keep Prisma as external (runtime env + native engine). Do NOT list `@estateiq/database` here —
+  // it lives outside `node_modules` and externalizing it drops the generated query-engine binaries
+  // from the Netlify bundle (Prisma looks for `libquery_engine-rhel-openssl-3.0.x.so.node`).
+  serverExternalPackages: ["@prisma/client", "prisma"],
+  // Monorepo: custom Prisma output — force-include Linux engines for Netlify (RHEL/OpenSSL 3).
+  outputFileTracingIncludes: {
+    "/*": ["../../packages/database/src/generated/prisma/**/*"],
+  },
   async headers() {
     return [
       {
