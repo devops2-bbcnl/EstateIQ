@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Navbar from '@/components/landing/Navbar'
 import Hero from '@/components/landing/Hero'
 import Features from '@/components/landing/Features'
@@ -10,6 +11,10 @@ import Footer from '@/components/landing/Footer'
 
 /** Session-aware UI must not be served from a stale static/RSC cache after sign-out. */
 export const dynamic = 'force-dynamic'
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+}
 
 export default function RootPage() {
   return (

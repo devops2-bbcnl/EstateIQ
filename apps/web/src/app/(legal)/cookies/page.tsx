@@ -5,6 +5,7 @@ import { Building2 } from 'lucide-react'
 export const metadata: Metadata = {
   title: 'Cookie Policy — Kynjo.Homes',
   description: 'How Kynjo.Homes uses cookies and similar technologies.',
+  alternates: { canonical: '/cookies' },
 }
 
 export default function CookiePolicyPage() {

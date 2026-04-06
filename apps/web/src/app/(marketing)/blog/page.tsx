@@ -5,6 +5,7 @@ import MarketingPageShell from '@/components/marketing/MarketingPageShell'
 export const metadata: Metadata = {
   title: 'Blog — Kynjo.Homes',
   description: 'Updates and guides on estate management with Kynjo.Homes.',
+  alternates: { canonical: '/blog' },
 }
 
 export default function BlogPage() {

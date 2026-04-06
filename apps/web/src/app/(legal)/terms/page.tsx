@@ -1,5 +1,12 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Building2 } from 'lucide-react'
+
+export const metadata: Metadata = {
+  title: 'Terms of Service — Kynjo.Homes',
+  description: 'Terms and conditions for using Kynjo.Homes.',
+  alternates: { canonical: '/terms' },
+}
 
 export default function TermsPage() {
   return (

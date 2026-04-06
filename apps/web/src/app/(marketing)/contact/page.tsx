@@ -10,6 +10,7 @@ import NewsletterForm from '@/components/NewsletterForm'
 export const metadata: Metadata = {
   title: 'Contact — Kynjo.Homes',
   description: 'Get in touch with the Kynjo.Homes team.',
+  alternates: { canonical: '/contact' },
 }
 
 export default function ContactPage() {

@@ -1,5 +1,12 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Building2 } from 'lucide-react'
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy — Kynjo.Homes',
+  description: 'How Kynjo.Homes collects, uses, and protects your personal information.',
+  alternates: { canonical: '/privacy' },
+}
 
 export default function PrivacyPage() {
   return (
