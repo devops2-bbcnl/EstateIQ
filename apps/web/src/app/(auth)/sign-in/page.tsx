@@ -1,7 +1,6 @@
 'use client'
-import { getSession, signIn } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import { useState, useRef } from 'react'
-import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import logo from '@/components/images/logo.png'
 import Link from 'next/link'
@@ -13,7 +12,6 @@ import {
 } from '@/components/auth/TurnstileWidget'
 
 export default function SignInPage() {
-  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -48,12 +46,9 @@ export default function SignInPage() {
       turnstileRef.current?.reset()
       setTurnstileToken(null)
     } else {
-      // Credentials + redirect:false: client session can lag until refetched; production
-      // (HTTPS / Netlify) is stricter than localhost about the next navigation seeing the cookie.
-      await getSession()
-      router.refresh()
-      router.push('/dashboard')
-      setLoading(false)
+      // Full navigation commits Set-Cookie before the next request. Client router + getSession
+      // often still see /api/auth/session as null on Netlify/HTTPS.
+      window.location.assign('/dashboard')
     }
   }
 

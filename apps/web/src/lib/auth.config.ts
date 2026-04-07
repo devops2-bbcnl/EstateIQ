@@ -1,6 +1,13 @@
 import type { NextAuthConfig } from 'next-auth'
 import Google from 'next-auth/providers/google'
 
+/** HTTPS sites need Secure cookies even if NODE_ENV is wrong in some serverless runtimes. */
+function useSecureSessionCookie(): boolean {
+  if (process.env.NODE_ENV === 'production') return true
+  const url = process.env.AUTH_URL?.trim() || process.env.NEXTAUTH_URL?.trim() || ''
+  return url.startsWith('https://')
+}
+
 /**
  * Google OAuth is optional. If client id/secret are missing, Auth.js throws
  * [Configuration] and *all* sign-in (including credentials) fails — common when
@@ -23,6 +30,8 @@ function googleProviders() {
  * Credentials live in auth.ts and are merged for Node (API routes, server actions).
  */
 export default {
+  /** Required for JWT/session decryption; omitting it can yield empty sessions in prod. */
+  secret: process.env.AUTH_SECRET,
   /**
    * Netlify / edge: forwarded Host may differ from NEXTAUTH_URL; without this,
    * CSRF/session cookies can fail in production while localhost still works.
@@ -60,7 +69,7 @@ export default {
         httpOnly: true,
         sameSite: 'lax',
         path: '/',
-        secure: process.env.NODE_ENV === 'production',
+        secure: useSecureSessionCookie(),
       },
     },
   },
