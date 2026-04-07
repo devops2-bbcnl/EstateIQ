@@ -7,6 +7,11 @@ import Google from 'next-auth/providers/google'
  * Credentials live in auth.ts and are merged for Node (API routes, server actions).
  */
 export default {
+  /**
+   * Netlify / edge: forwarded Host may differ from NEXTAUTH_URL; without this,
+   * CSRF/session cookies can fail in production while localhost still works.
+   */
+  trustHost: true,
   providers: [Google],
   callbacks: {
     async session({ session, token }) {
